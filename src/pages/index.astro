@@ -1,29 +1,55 @@
 ---
 import "../app.css";
-import * as spotify from "../lib/spotify"
+import * as spotify from "../lib/spotify";
+import { Debug } from "astro:components";
 
 const session = await Astro.locals.auth.validate();
-console.log({session})
-// const accessToken = session.sessionId;
-// const spotifyUser = await spotify.getCurrentUser(accessToken);
-// console.log(spotifyUser)
+console.log({ session });
 if (!session) return Astro.redirect("/login", 302);
+const accessToken = session.accessToken;
+const currentTrack = await spotify.getCurrentTrack(accessToken);
+
+function getGoogleUrl(query) {
+  const baseUrl = "https://www.google.com/search?q=";
+  const encodedQuery = encodeURIComponent(query);
+  return `${baseUrl}${encodedQuery}`;
+}
+
+function getSearchUrl(query) {
+  const baseUrl = "/search";
+  const encodedQuery = encodeURIComponent(query);
+  return `${baseUrl}?q=${encodedQuery}`;
+}
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Spotify OAuth with Lucia</title>
-	</head>
-	<body>
-		<h1>Profile</h1>
-		<p>User id: {session.user.userId}</p>
-		<p>Spotify user ID: {session.user.spotifyUserId}</p>
-		<form method="post" action="/logout">
-			<input type="submit" value="Sign out" />
-		</form>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Spotify OAuth with Lucia</title>
+  </head>
+  <body>
+    <h1>Profile</h1>
+    <p>User id: {session.user.userId}</p>
+    <p>Spotify user ID: {session.user.spotifyUserId}</p>
+    <h2>Current track</h2>
+    <h3>Search queries</h3>
+    <ul>
+      {
+        currentTrack.searchQueries.map((query) => (
+          <li>
+            {query.label}. <a href={getGoogleUrl(query.query)}>Google</a>{" "}
+            <a href={getSearchUrl(query.query)}>Serper</a>
+          </li>
+        ))
+      }
+    </ul>
+    <Debug {currentTrack} />
+
+    <form method="post" action="/logout">
+      <input type="submit" value="Sign out" />
+    </form>
+  </body>
 </html>

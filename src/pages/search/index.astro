@@ -1,0 +1,8 @@
+---
+import { Debug } from "astro:components";
+import { getSearchResults } from "../../lib/serper";
+const query = Astro.url.searchParams.get("q");
+const searchResults = await getSearchResults(query);
+---
+
+<Debug {searchResults} />

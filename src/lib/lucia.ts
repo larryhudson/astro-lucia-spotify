@@ -33,6 +33,7 @@ export const spotifyAuth = spotify(auth, {
   clientId: import.meta.env.SPOTIFY_CLIENT_ID,
   clientSecret: import.meta.env.SPOTIFY_CLIENT_SECRET,
   redirectUri: import.meta.env.SPOTIFY_REDIRECT_URI,
+  scope: ["user-read-currently-playing"],
 });
 
 export type Auth = typeof auth;
