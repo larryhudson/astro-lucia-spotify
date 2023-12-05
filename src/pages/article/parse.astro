@@ -1,0 +1,39 @@
+---
+import Layout from "@src/components/Layout.astro";
+import {extractContent} from "@src/lib/readability";
+import { Debug } from "astro:components";
+
+let article;
+const articleUrl = Astro.url.searchParams.get("url");
+
+if (articleUrl) {
+  article = await extractContent(articleUrl);
+}
+
+---
+
+<Layout>
+
+<form>
+  <label for="url-input">Article URL</label>
+  <input type="text" name="url" id="url-input" />
+  <button>Parse</button>
+</form>
+{article && (
+<div set:html={article.content} />
+<pre set:html={article.textContent} />
+
+<form action="./extract" method="POST">
+<input type="hidden" name="article" value={article.textContent} />
+<button>Extract structured data from article</button>
+</form>
+
+<Debug {article} />
+)}
+  </Layout>
+
+<style>
+  pre {
+    white-space: pre-wrap;
+  }
+</style>

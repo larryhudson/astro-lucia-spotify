@@ -1,4 +1,4 @@
-import { auth, spotifyAuth } from "../../../lib/lucia.js";
+import { auth, spotifyAuth } from "@src/lib/lucia.js";
 import { OAuthRequestError } from "@lucia-auth/oauth";
 
 import type { APIRoute } from "astro";

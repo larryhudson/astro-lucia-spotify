@@ -1,4 +1,4 @@
-import { spotifyAuth } from "../../../lib/lucia";
+import { spotifyAuth } from "@src/lib/lucia";
 
 import type { APIRoute } from "astro";
 
