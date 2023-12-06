@@ -68,3 +68,20 @@ Example:
 
   return data;
 }
+
+export async function summariseText(text) {
+  const systemPrompt = `Summarise the supplied text. Extract the key ideas and return a one-paragraph summary.`;
+
+  const message = {
+    role: "user",
+    content: text,
+  };
+
+  const messages = [message];
+
+  const response = await fetchChatCompletion("gpt-4", systemPrompt, messages);
+
+  const summary = response.choices[0].message.content;
+
+  return summary;
+}

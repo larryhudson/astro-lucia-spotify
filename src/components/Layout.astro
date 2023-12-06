@@ -1,11 +1,23 @@
-<!DOCTYPE html>
+---
+import HtmxUrl from "htmx.org/dist/htmx.min.js?url";
+---
+
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <slot />
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src={HtmxUrl} is:inline></script>
+  </head>
+  <body>
+    <header>
+      <form method="post" action="/logout">
+        <input type="submit" value="Sign out" />
+      </form>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </body>
 </html>

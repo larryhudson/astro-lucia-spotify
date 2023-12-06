@@ -1,0 +1,49 @@
+---
+type SearchResult = {
+  title: string;
+  snippet: string;
+  link: string;
+  date: string;
+  position: number;
+};
+
+const result: SearchResult = Astro.props.result;
+---
+
+<div class="border-b border-gray-200 py-6">
+  <a href={result.link} class="text-blue-500 hover:text-blue-600">
+    <h3 class="text-lg font-medium">{result.title}</h3>
+  </a>
+  <p class="text-gray-500 text-sm">{result.snippet}</p>
+  <form hx-get="/article/parse" hx-select="#content">
+    <input type="hidden" name="url" value={result.link} />
+    <button>Read</button>
+  </form>
+</div>
+
+<style>
+  .border-b {
+    border-bottom-width: 1px;
+    border-color: #e5e7eb;
+  }
+
+  .border-gray-200 {
+    --border-opacity: 1;
+    border-color: rgba(229, 231, 235, var(--border-opacity));
+  }
+
+  .py-6 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .text-blue-500 {
+    --text-opacity: 1;
+    color: rgba(59, 130, 246, var(--text-opacity));
+  }
+
+  .hover\:text-blue-600:hover {
+    --text-opacity: 1;
+    color: rgba(37, 99, 235, var(--text-opacity));
+  }
+</style>

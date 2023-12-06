@@ -1,8 +1,35 @@
 ---
+import Layout from "@src/components/Layout.astro";
+import SearchResult from "@src/components/SearchResult.astro";
 import { Debug } from "astro:components";
-import { getSearchResults } from "@src/lib/serper";
+import { fetchFromSerper } from "@src/lib/serper";
 const query = Astro.url.searchParams.get("q");
-const searchResults = await getSearchResults(query);
+const searchData = await fetchFromSerper(query);
+const searchResults = searchData.organic;
+
+type SearchResult = {
+  title: string;
+  snippet: string;
+  link: string;
+  date: string;
+  position: number;
+};
 ---
 
-<Debug {searchResults} />
+<Layout>
+  <div id="results">
+    {searchResults.map((result: SearchResult) => <SearchResult {result} />)}
+
+    <details>
+      <summary>Debug of search data</summary>
+      <Debug {searchData} />
+    </details>
+  </div>
+</Layout>
+
+<style>
+  .search-results {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+</style>

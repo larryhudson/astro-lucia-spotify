@@ -21,8 +21,6 @@ export const get: APIRoute = async (context) => {
     const { getExistingUser, spotifyUser, spotifyTokens, createUser } =
       await spotifyAuth.validateCallback(code);
 
-    console.log({ spotifyTokens });
-
     const getUser = async () => {
       const existingUser = await getExistingUser();
       if (existingUser) return existingUser;

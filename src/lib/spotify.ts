@@ -7,14 +7,12 @@ export async function fetchFromSpotify(
 ) {
   const baseUrl = "https://api.spotify.com/v1/";
   const fullUrl = url.startsWith("http") ? url : baseUrl + url;
-  console.log({ fullUrl });
   const spotifyResponse = await fetch(fullUrl, {
     ...options,
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-  console.log(spotifyResponse);
   const is204 = spotifyResponse.status === 204;
   if (is204) {
     return null;

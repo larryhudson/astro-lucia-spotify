@@ -20,7 +20,15 @@ if (articleUrl) {
   <button>Parse</button>
 </form>
 {article && (
-<div set:html={article.content} />
+<details id="content">
+  <summary>Article</summary>
+  <form hx-post="/article/summary" hx-select="#summary">
+    <input type="hidden" name="text" value={article.textContent} />
+    <button>Get summary</button>
+  </form>
+
+  <div set:html={article.content} />
+</details>
 <pre set:html={article.textContent} />
 
 <form action="./extract" method="POST">

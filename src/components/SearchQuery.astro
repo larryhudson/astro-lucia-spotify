@@ -1,0 +1,28 @@
+---
+type SearchQuery = {
+  query: string;
+  label: string;
+};
+
+const query: SearchQuery = Astro.props.query;
+
+function getGoogleUrl(query) {
+  const baseUrl = "https://www.google.com/search?q=";
+  const encodedQuery = encodeURIComponent(query);
+  return `${baseUrl}${encodedQuery}`;
+}
+
+function getSearchUrl(query) {
+  const baseUrl = "/search";
+  const encodedQuery = encodeURIComponent(query);
+  return `${baseUrl}?q=${encodedQuery}`;
+}
+---
+
+<div>
+  {query.label}: {query.query}. <a href={getGoogleUrl(query.query)}>Google</a>{" "}
+  <form hx-get={getSearchUrl(query.query)} hx-select="#results">
+    <input type="hidden" name="q" value={query.query} />
+    <button>Serper</button>
+  </form>
+</div>

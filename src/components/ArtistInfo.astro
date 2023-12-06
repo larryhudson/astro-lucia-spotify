@@ -1,0 +1,37 @@
+---
+import { Debug } from "astro:components";
+
+type Artist = {
+  name: string;
+  popularity: number;
+  followers: {
+    total: number;
+  };
+  genres: string[];
+  images: {
+    url: string;
+  }[];
+};
+
+const artist: Artist = Astro.props.artist;
+---
+
+<img src={artist.images.at(-2).url} alt={`Photo of ${artist.name}`} />
+<dl>
+  <dt>Name</dt>
+  <dd>{artist.name}</dd>
+  <dt>Popularity</dt>
+  <dd>{artist.popularity}</dd>
+  <dt>Followers</dt>
+  <dd>{artist.followers.total}</dd>
+  <dt>Genres</dt>
+  <dd>
+    <ul>
+      {artist.genres.map((genre) => <li>{genre}</li>)}
+    </ul>
+  </dd>
+  <details>
+    <summary>Debug</summary>
+    <Debug {artist} />
+  </details>
+</dl>
